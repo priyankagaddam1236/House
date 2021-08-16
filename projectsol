@@ -42,7 +42,7 @@ bowling_team varchar
 
 
 copy matches from 'G:\Data_for_final_project_-_IPL\Data for final project - IPL\IPL_matches.csv' CSV header ;
---Task 4
+
 copy deliveries from 'G:\Data_for_final_project_-_IPL\Data for final project - IPL\IPL_Ball.csv' CSV header ;
 
 select * from deliveries1 limit 20;
@@ -66,17 +66,17 @@ else 'other'
  
 select ball_result, count (*) from deliveries_v02 group by ball_result;
 
-select batting_team, count(*) from deliveries1 where ball_result = 'boundary' 
+select batting_team, count(*) from deliveries_v02 where ball_result = 'boundary' 
 group by batting_team order by count desc;
 
-select bowling_team, count(*) from deliveries1 where ball_result = 'dot' 
+select bowling_team, count(*) from deliveries_v02 where ball_result = 'dot' 
 group by bowling_team order by count desc;
 
 select dismissal_kind, count (*) from deliveries1 where dismissal_kind <> 'NA'
 group by dismissal_kind 
 order by count desc;
 
-select bowler, sum(extra_runs) as total_extra_runs from deliveries group by bowler 
+select bowler, sum(extra_runs) as total_extra_runs from deliveries1 group by bowler 
 order by total_extra_runs desc limit 5;
 
 create table deliveries_v03 AS SELECT a.*, b.venue, b.match_date from 
@@ -85,16 +85,16 @@ left join (select max(venue) as venue, max(date) as match_date, match_id from ma
 group by match_id) as b
 on a.match_id = b.match_id;
 
-select venue, sum(total_runs) as runs from deliveries2 group by venue order by runs 
+select venue, sum(total_runs) as runs from deliveries_v03 group by venue order by runs 
 desc;
 
 select extract(year from match_date) as IPL_year, sum(total_runs) as runs 
-from deliveries2 
+from deliveries_v02 
 where venue = 'Eden Gardens' group by IPL_year order by runs desc;
 
-select distinct team1 from matches;
+select distinct team1 from matches_2;
 create table matches_corrected as select *, replace(team1, 'Rising Pune Supergiants', 'Rising Pune 
-Supergiant') as team1_corr, replace(team2, 'Rising Pune Supergiants', 'Rising Pune Supergiant') as team2_corr from matches;
+Supergiant') as team1_corr, replace(team2, 'Rising Pune Supergiants', 'Rising Pune Supergiant') as team2_corr from matches_2;
 
 select distinct team1_corr from matches_corrected;
 
