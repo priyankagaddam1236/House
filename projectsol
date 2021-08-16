@@ -89,7 +89,7 @@ select venue, sum(total_runs) as runs from deliveries_v03 group by venue order b
 desc;
 
 select extract(year from match_date) as IPL_year, sum(total_runs) as runs 
-from deliveries_v02 
+from deliveries_v03 
 where venue = 'Eden Gardens' group by IPL_year order by runs desc;
 
 select distinct team1 from matches_2;
